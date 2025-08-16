@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Password Generator</title>
+    <title>Secure Password Generator</title>
     <style>
         :root {
-            --primary: #4361ee;
-            --success: #4cc9f0;
-            --warning: #f8961e;
-            --danger: #f94144;
-            --dark: #212529;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --border: #dee2e6;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #e2e8f0;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --secondary: #94a3b8;
+            --danger: #f43f5e;
+            --success: #10b981;
+            --border: #334155;
         }
         
         * {
@@ -25,8 +26,8 @@
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             line-height: 1.6;
-            color: var(--dark);
-            background-color: #f1f5f9;
+            color: var(--text);
+            background: var(--bg);
             padding: 2rem;
             min-height: 100vh;
             display: flex;
@@ -35,19 +36,20 @@
         }
         
         .card {
-            background: white;
+            background: var(--card);
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             width: 100%;
             max-width: 600px;
             padding: 2.5rem;
             margin: 0 auto;
+            border: 1px solid var(--border);
         }
         
         h1 {
             font-size: 1.75rem;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text);
             margin-bottom: 1.5rem;
             text-align: center;
         }
@@ -57,7 +59,7 @@
             margin-bottom: 1.5rem;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         #password {
@@ -67,14 +69,15 @@
             border: 1px solid var(--border);
             border-right: none;
             border-radius: 8px 0 0 8px;
-            background-color: var(--light);
+            background: rgba(14, 26, 42, 0.7);
+            color: var(--text);
             font-family: 'Courier New', monospace;
         }
         
         #copy {
             padding: 0 1.25rem;
-            background-color: var(--primary);
-            color: white;
+            background-color: var(--accent);
+            color: #0f172a;
             border: none;
             border-radius: 0 8px 8px 0;
             cursor: pointer;
@@ -86,7 +89,7 @@
         }
         
         #copy:hover {
-            background-color: #3a56d4;
+            background-color: var(--accent-hover);
         }
         
         .password-meta {
@@ -94,7 +97,7 @@
             justify-content: space-between;
             margin-bottom: 1.5rem;
             font-size: 0.9rem;
-            color: var(--gray);
+            color: var(--secondary);
         }
         
         .form-group {
@@ -105,7 +108,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: var(--dark);
+            color: var(--text);
         }
         
         .range-container {
@@ -125,6 +128,8 @@
             border: 1px solid var(--border);
             border-radius: 6px;
             font-weight: 600;
+            background: rgba(14, 26, 42, 0.7);
+            color: var(--text);
         }
         
         input[type="range"] {
@@ -142,13 +147,14 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: var(--primary);
+            background: var(--accent);
             cursor: pointer;
             transition: all 0.2s ease;
         }
         
         input[type="range"]::-webkit-slider-thumb:hover {
             transform: scale(1.1);
+            background: var(--accent-hover);
         }
         
         .options-grid {
@@ -167,7 +173,7 @@
             margin-right: 0.5rem;
             width: 1.1rem;
             height: 1.1rem;
-            accent-color: var(--primary);
+            accent-color: var(--accent);
         }
         
         .exclude-group {
@@ -181,6 +187,8 @@
             border-radius: 8px;
             font-size: 1rem;
             margin-top: 0.5rem;
+            background: rgba(14, 26, 42, 0.7);
+            color: var(--text);
         }
         
         .strength-meter {
@@ -206,17 +214,19 @@
             justify-content: space-between;
             margin-top: 0.5rem;
             font-size: 0.9rem;
+            color: var(--secondary);
         }
         
         #strength-label {
             font-weight: 600;
+            color: var(--text);
         }
         
         #generate {
             width: 100%;
             padding: 1rem;
-            background-color: var(--primary);
-            color: white;
+            background-color: var(--accent);
+            color: #0f172a;
             border: none;
             border-radius: 8px;
             font-size: 1.1rem;
@@ -227,7 +237,7 @@
         }
         
         #generate:hover {
-            background-color: #3a56d4;
+            background-color: var(--accent-hover);
             transform: translateY(-1px);
         }
         
@@ -310,7 +320,7 @@
             </div>
         </div>
         
-        <button id="generate">Generate Password</button>
+        <button id="generate">Generate Secure Password</button>
     </div>
 
     <script>
@@ -513,13 +523,13 @@
                 toast.style.bottom = '20px';
                 toast.style.left = '50%';
                 toast.style.transform = 'translateX(-50%)';
-                toast.style.backgroundColor = 'var(--dark)';
-                toast.style.color = 'white';
+                toast.style.backgroundColor = 'var(--card)';
+                toast.style.color = 'var(--text)';
                 toast.style.padding = '12px 24px';
                 toast.style.borderRadius = '8px';
-                toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
                 toast.style.zIndex = '1000';
-                toast.style.animation = 'fadeIn 0.3s, fadeOut 0.3s 2.7s';
+                toast.style.border = '1px solid var(--border)';
                 document.body.appendChild(toast);
                 
                 setTimeout(() => {
