@@ -114,12 +114,12 @@
             gap: 1rem;
         }
         
-        #length {
+        #length-slider {
             flex: 1;
         }
         
         #length-value {
-            width: 4rem; /* Increased from 3rem to 4rem */
+            width: 4rem;
             text-align: center;
             padding: 0.5rem;
             border: 1px solid var(--border);
@@ -249,7 +249,7 @@
             }
             
             #length-value {
-                width: 3.5rem; /* Slightly smaller on mobile */
+                width: 3.5rem;
             }
         }
     </style>
@@ -269,9 +269,9 @@
         </div>
         
         <div class="form-group">
-            <label for="length">Password Length</label>
+            <label for="length-slider">Password Length</label>
             <div class="range-container">
-                <input type="range" id="length" min="4" max="128" value="12">
+                <input type="range" id="length-slider" min="4" max="128" value="12">
                 <input type="number" id="length-value" min="4" max="128" value="12">
             </div>
         </div>
@@ -322,7 +322,7 @@
             const symbols = '!@#$%^&*()_-+={}[]|:;"<>,.?/~`';
             
             // DOM elements
-            const lengthSlider = document.getElementById('length');
+            const lengthSlider = document.getElementById('length-slider');
             const lengthValue = document.getElementById('length-value');
             const lengthDisplay = document.getElementById('length-display');
             const uppercaseCheckbox = document.getElementById('uppercase');
@@ -341,8 +341,9 @@
             // Event listeners
             generateBtn.addEventListener('click', generatePassword);
             copyBtn.addEventListener('click', copyPassword);
-            lengthSlider.addEventListener('input', syncLength);
-            lengthValue.addEventListener('input', syncLength);
+            lengthSlider.addEventListener('input', handleSliderChange);
+            lengthValue.addEventListener('input', handleNumberInput);
+            lengthValue.addEventListener('change', handleNumberChange);
             
             // Character option checkboxes
             [uppercaseCheckbox, lowercaseCheckbox, numbersCheckbox, symbolsCheckbox].forEach(checkbox => {
@@ -364,11 +365,25 @@
             excludeInput.addEventListener('input', generatePassword);
             
             // Initialize
-            syncLength();
             generatePassword();
             
-            function syncLength() {
-                const value = Math.min(128, Math.max(4, parseInt(lengthSlider.value) || 12));
+            function handleSliderChange() {
+                const value = lengthSlider.value;
+                lengthValue.value = value;
+                lengthDisplay.textContent = `Length: ${value}`;
+                generatePassword();
+            }
+            
+            function handleNumberInput() {
+                // Only update the display while typing
+                const value = Math.min(128, Math.max(4, parseInt(lengthValue.value) || 12));
+                lengthValue.value = value;
+                lengthDisplay.textContent = `Length: ${value}`;
+            }
+            
+            function handleNumberChange() {
+                // Update both inputs and generate password when done editing
+                const value = Math.min(128, Math.max(4, parseInt(lengthValue.value) || 12));
                 lengthSlider.value = value;
                 lengthValue.value = value;
                 lengthDisplay.textContent = `Length: ${value}`;
